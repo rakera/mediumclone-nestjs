@@ -1,6 +1,7 @@
 import { User } from '@app/user/decorators/user.decorator';
 import { CreateUserDto } from '@app/user/dto/createUser.dto';
 import { LoginUserDto } from '@app/user/dto/login.dto';
+import { UpdateUserDto } from '@app/user/dto/updateUser.dto';
 import { AuthGuard } from '@app/user/guards/auth.guards';
 import { UserResponceInterface } from '@app/user/types/userResponce.interface';
 import { UserEntity } from '@app/user/user.entity';
@@ -10,6 +11,7 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   UseGuards,
   UsePipes,
   ValidationPipe,
@@ -44,6 +46,19 @@ export class UserController {
     @User('id') currentUserId: number,
   ): Promise<UserResponceInterface> {
     console.log('userId', currentUserId);
+    return this.userService.buildUserResponce(user);
+  }
+
+  @Put('user')
+  @UseGuards(AuthGuard)
+  async updateCurrentUser(
+    @User('id') currentUserId: number,
+    @Body('user') updateUserDto: UpdateUserDto,
+  ): Promise<UserResponceInterface> {
+    const user = await this.userService.updateUser(
+      currentUserId,
+      updateUserDto,
+    );
     return this.userService.buildUserResponce(user);
   }
 }
