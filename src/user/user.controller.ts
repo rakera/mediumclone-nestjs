@@ -3,7 +3,7 @@ import { CreateUserDto } from '@app/user/dto/createUser.dto';
 import { LoginUserDto } from '@app/user/dto/login.dto';
 import { UpdateUserDto } from '@app/user/dto/updateUser.dto';
 import { AuthGuard } from '@app/user/guards/auth.guards';
-import { UserResponceInterface } from '@app/user/types/userResponce.interface';
+import { UserResponseInterface } from '@app/user/types/userResponse.interface';
 import { UserEntity } from '@app/user/user.entity';
 import { UserService } from '@app/user/user.service';
 import {
@@ -25,18 +25,18 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   async createUser(
     @Body('user') createUserDto: CreateUserDto,
-  ): Promise<UserResponceInterface> {
+  ): Promise<UserResponseInterface> {
     const user = await this.userService.createUser(createUserDto);
-    return this.userService.buildUserResponce(user);
+    return this.userService.buildUserResponse(user);
   }
 
   @Post('users/login')
   @UsePipes(new ValidationPipe())
   async login(
     @Body('user') loginUserDto: LoginUserDto,
-  ): Promise<UserResponceInterface> {
+  ): Promise<UserResponseInterface> {
     const user = await this.userService.login(loginUserDto);
-    return this.userService.buildUserResponce(user);
+    return this.userService.buildUserResponse(user);
   }
 
   @Get('user')
@@ -44,9 +44,9 @@ export class UserController {
   async currentUser(
     @User() user: UserEntity,
     @User('id') currentUserId: number,
-  ): Promise<UserResponceInterface> {
+  ): Promise<UserResponseInterface> {
     console.log('userId', currentUserId);
-    return this.userService.buildUserResponce(user);
+    return this.userService.buildUserResponse(user);
   }
 
   @Put('user')
@@ -54,11 +54,11 @@ export class UserController {
   async updateCurrentUser(
     @User('id') currentUserId: number,
     @Body('user') updateUserDto: UpdateUserDto,
-  ): Promise<UserResponceInterface> {
+  ): Promise<UserResponseInterface> {
     const user = await this.userService.updateUser(
       currentUserId,
       updateUserDto,
     );
-    return this.userService.buildUserResponce(user);
+    return this.userService.buildUserResponse(user);
   }
 }

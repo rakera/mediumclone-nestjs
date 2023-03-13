@@ -6,7 +6,7 @@ import { CreateUserDto } from '@app/user/dto/createUser.dto';
 import { UserEntity } from '@app/user/user.entity';
 import { sign } from 'jsonwebtoken';
 import { JWT_SECRET } from '@app/config';
-import { UserResponceInterface } from '@app/user/types/userResponce.interface';
+import { UserResponseInterface } from '@app/user/types/userResponse.interface';
 import { LoginUserDto } from '@app/user/dto/login.dto';
 import { compare } from 'bcrypt';
 
@@ -92,7 +92,7 @@ export class UserService {
     );
   }
 
-  buildUserResponce(user: UserEntity): UserResponceInterface {
+  buildUserResponse(user: UserEntity): UserResponseInterface {
     return {
       user: {
         ...user,
